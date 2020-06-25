@@ -1,0 +1,40 @@
+# Node APP
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nodeapp
+  name: nodeapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodeapp
+  template:
+    metadata:
+      labels:
+        app: nodeapp
+    spec:
+      containers:
+      - image: nodeapp:1.0
+        name: nodeapp
+        ports:
+        - containerPort: 3000
+        livenessProbe:
+          tcpSocket:
+            port: 27017
+          initialDelaySeconds: 15
+          periodSeconds: 10
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeapp
+spec:
+  selector:
+    app: nodeapp
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: NodePort
