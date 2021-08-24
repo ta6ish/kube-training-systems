@@ -6,7 +6,7 @@ metadata:
     app: nodeapp
   name: nodeapp
 spec:
-  replicas: 2
+  replicas: 5
   selector:
     matchLabels:
       app: nodeapp
@@ -20,11 +20,14 @@ spec:
         name: nodeapp
         ports:
         - containerPort: 3000
-        livenessProbe:
-          tcpSocket:
-            port: 27017
-          initialDelaySeconds: 15
-          periodSeconds: 10
+        resources:
+            requests:
+              cpu: 500m (0.5)  1 sing colere
+              memory: 256Mi 
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+          
 ---
 # Service
 apiVersion: v1
